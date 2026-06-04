@@ -1,66 +1,103 @@
 import { useState } from "react";
 import api from "../services/api";
+import "../styles/Login.css";
+import { Link } from "react-router-dom";
 
 function Login() {
 
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
 
-  async function handleLogin() {
+    async function handleLogin() {
 
-  try {
+        try {
 
-    const response = await api.post("/auth/login", {
-      email,
-      password,
-    });
+            const response = await api.post(
+                "/auth/login",
+                {
+                    email,
+                    password
+                }
+            );
 
-    console.log(response.data);
+            localStorage.setItem(
+                "token",
+                response.data.token
+            );
 
-  } catch (error) {
+            console.log("Login realizado!");
 
-    console.error(error);
+        } catch (error) {
 
-  }
-}
+            console.error(error);
 
-  return (
-    <div>
-      <h1>TaskFlow</h1>
+        }
+    }
 
-      <p>Faça login para continuar</p>
+    return (
 
-      <input
-        type="email"
-        placeholder="Email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-      />
+        <div className="login-container">
 
-      <br />
-      <br />
+            <div className="login-card">
 
-      <input
-        type="password"
-        placeholder="Senha"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-      />
+                <h1 className="login-title">
+                    TaskFlow
+                </h1>
 
-      <br />
-      <br />
+                <p className="login-subtitle">
+                    Faça login para continuar
+                </p>
 
-      <button onClick={handleLogin}>
-        Entrar
-      </button>
+                <div className="login-form">
 
-      <p>Email digitado: {email}</p>
-      <p>Senha digitada: {password}</p>
+                    <input
+                        className="login-input"
+                        type="email"
+                        placeholder="Email"
+                        value={email}
+                        onChange={(e) =>
+                            setEmail(e.target.value)
+                        }
+                    />
 
-      
+                    <input
+                        className="login-input"
+                        type="password"
+                        placeholder="Senha"
+                        value={password}
+                        onChange={(e) =>
+                            setPassword(e.target.value)
+                        }
+                    />
 
-    </div>
-  );
+                    <button
+                        className="login-button"
+                        onClick={handleLogin}
+                    >
+                        Entrar
+                    </button>
+
+                </div>
+
+                <div className="login-footer">
+
+                    Não possui conta?
+
+                    <br />
+
+                    <Link
+                        to="/register"
+                        className="login-link"
+                    >
+                        Cadastre-se
+                    </Link>
+
+                </div>
+
+            </div>
+
+        </div>
+    );
 }
 
 export default Login;
