@@ -1,6 +1,7 @@
 import { useState } from "react";
 import api from "../services/api";
 import "../styles/Login.css";
+import { Link } from "react-router-dom";
 
 function Register() {
 
@@ -86,6 +87,21 @@ function Register() {
                     >
                         Cadastrar
                     </button>
+
+                </div>
+
+                <div className="login-footer">
+
+                    Já possui conta?
+
+                    <br />
+
+                    <Link
+                        to="/"
+                        className="login-link"
+                    >
+                        Entrar
+                    </Link>
 
                 </div>
 

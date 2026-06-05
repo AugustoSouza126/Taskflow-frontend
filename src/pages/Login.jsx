@@ -2,9 +2,11 @@ import { useState } from "react";
 import api from "../services/api";
 import "../styles/Login.css";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 function Login() {
 
+    const navigate = useNavigate();
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
@@ -24,6 +26,8 @@ function Login() {
                 "token",
                 response.data.token
             );
+
+            navigate("/dashboard");
 
             console.log("Login realizado!");
 
