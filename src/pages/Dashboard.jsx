@@ -7,6 +7,24 @@ function Dashboard() {
 
     const [tasks, setTasks] = useState([]);
 
+    // Quantidade total de tarefas
+    const totalTasks = tasks.length;
+
+// Quantidade de tarefas TODO
+    const todoTasks = tasks.filter(
+        task => task.status === "TODO"
+    ).length;
+
+// Quantidade de tarefas em andamento
+    const inProgressTasks = tasks.filter(
+        task => task.status === "IN_PROGRESS"
+    ).length;
+
+// Quantidade de tarefas concluídas
+    const doneTasks = tasks.filter(
+        task => task.status === "DONE"
+    ).length;
+
     async function loadTasks() {
 
         try {
@@ -48,57 +66,73 @@ function Dashboard() {
 
                 <h2>TaskFlow</h2>
 
-                <button>
-                    Minhas Tarefas
-                </button>
+                <button>Minhas Tarefas</button>
 
                 <Link to="/new-task">
-                    <button>
-                        Nova Tarefa
-                    </button>
+                    <button>Nova Tarefa</button>
                 </Link>
 
-                <button>
-                    Sair
-                </button>
+                <button>Sair</button>
 
             </aside>
 
             <main className="dashboard-content">
 
-                <h1>
-                    Minhas Tarefas
-                </h1>
+                <h1>Minhas Tarefas</h1>
 
-                {
-                    tasks.map(task => (
+                <div className="stats-container">
 
-                        <div
-                            key={task.id}
-                            className="task-card"
-                        >
+                    <div className="stat-card">
+                        <h2>{totalTasks}</h2>
+                        <p>Total</p>
+                    </div>
 
-                            <h3>
-                                {task.title}
-                            </h3>
+                    <div className="stat-card">
+                        <h2>{todoTasks}</h2>
+                        <p>Pendentes</p>
+                    </div>
 
-                            <p>
-                                {task.description}
-                            </p>
+                    <div className="stat-card">
+                        <h2>{inProgressTasks}</h2>
+                        <p>Em andamento</p>
+                    </div>
 
-                            <span>
-                                {task.status}
-                            </span>
+                    <div className="stat-card">
+                        <h2>{doneTasks}</h2>
+                        <p>Concluídas</p>
+                    </div>
 
-                        </div>
+                </div>
 
-                    ))
-                }
+                <div className="tasks-grid">
+                    {
+                        tasks.map(task => (
+                            <div
+                                key={task.id}
+                                className="task-card"
+                                >
+                                <div className="task-info">
+                                    <h3>{task.title}</h3>
+                                    <p>{task.description}</p>
+                                </div>
 
+                                <div className="task-actions">
+                                    <span
+                                        className={`status ${task.status}`}
+                                    >
+                                        {task.status}
+                                    </span>
+
+                                    <button>Editar</button>
+
+                                    <button>Excluir</button>
+                                </div>
+                            </div>
+                        ))
+                    }
+                </div>
             </main>
-
         </div>
-
     );
 }
 
