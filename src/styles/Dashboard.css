@@ -226,32 +226,20 @@
 
 /* Estilo do botão cancelar */
 .cancel-button {
-
     background: #374151;
-
     color: white;
-
     border: none;
-
     border-radius: 8px;
-
     padding: 10px 16px;
-
     cursor: pointer;
 }
 
 /* Estilo do botão salvar */
 .save-button {
-
     background: #2563eb;
-
     color: white;
-
     border: none;
-
     border-radius: 8px;
-
     padding: 10px 16px;
-
     cursor: pointer;
 }

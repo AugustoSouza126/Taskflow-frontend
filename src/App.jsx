@@ -7,7 +7,6 @@ import {
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Dashboard from "./pages/Dashboard";
-import NewTask from "./pages/NewTask";
 
 function App() {
 
