@@ -148,5 +148,110 @@
             minmax(350px, 1fr)
         );
     gap: 20px;
+}
 
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal {
+    background: #07142e;
+    padding: 30px;
+    width: 500px;
+    border-radius: 20px;
+    color: white;
+}
+
+/* Fundo escuro atrás do modal */
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+}
+
+/* Caixa principal do modal */
+.modal {
+    width: 450px;
+    background: #071633;
+    border-radius: 16px;
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    box-shadow: 0 10px 30px rgba(0,0,0,.4);
+}
+
+.modal h2 {
+    color: white;
+}
+
+/* Campos do formulário */
+.modal input,
+.modal textarea,
+.modal select {
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid #2d4670;
+    background: #0b1d42;
+    color: white;
+}
+
+.modal textarea {
+    resize: none;
+    height: 100px;
+}
+
+/* Área dos botões */
+.modal-buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+.modal-buttons button {
+    padding: 10px 16px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+/* Estilo do botão cancelar */
+.cancel-button {
+
+    background: #374151;
+
+    color: white;
+
+    border: none;
+
+    border-radius: 8px;
+
+    padding: 10px 16px;
+
+    cursor: pointer;
+}
+
+/* Estilo do botão salvar */
+.save-button {
+
+    background: #2563eb;
+
+    color: white;
+
+    border: none;
+
+    border-radius: 8px;
+
+    padding: 10px 16px;
+
+    cursor: pointer;
 }

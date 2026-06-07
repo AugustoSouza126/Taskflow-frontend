@@ -32,11 +32,6 @@ function App() {
               element={<Dashboard />}
           />
 
-          <Route
-             path="/new-task"
-             element={<NewTask />}
-          />
-
         </Routes>
 
       </BrowserRouter>
