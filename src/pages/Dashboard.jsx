@@ -1,8 +1,12 @@
 import { useEffect, useState } from "react";
 import api from "../services/api";
 import "../styles/Dashboard.css";
+import { useNavigate } from "react-router-dom";
 
 function Dashboard() {
+
+    // Hook para redirecionamento
+    const navigate = useNavigate();
 
     const [tasks, setTasks] = useState([]);
 
@@ -29,6 +33,26 @@ function Dashboard() {
 
     const [showModal, setShowModal] = useState(false);
 
+    // Guarda o id da tarefa que está sendo editada
+    const [editingTaskId, setEditingTaskId] = useState(null);
+
+    // Verifica se usuário está autenticado
+    useEffect(() => {
+
+        // Busca token salvo
+        const token =
+            localStorage.getItem("token");
+
+        // Se não existir token
+        if (!token) {
+
+            // Volta para login
+            navigate("/");
+
+        }
+
+    }, []);
+
     // Salva uma nova tarefa
     async function createTask() {
 
@@ -52,7 +76,16 @@ function Dashboard() {
             );
 
             // Fecha o modal
+            // Fecha modal
             setShowModal(false);
+
+            // Sai do modo edição
+                        setEditingTaskId(null);
+
+            // Limpa campos
+                        setTitle("");
+                        setDescription("");
+                        setStatus("TODO");
 
             // Limpa os campos
             setTitle("");
@@ -103,7 +136,112 @@ function Dashboard() {
 
     }, []);
 
+    // Exclui uma tarefa pelo id
+    async function deleteTask(id) {
+
+        try {
+
+            // Busca token salvo no navegador
+            const token = localStorage.getItem("token");
+
+            // Chama endpoint DELETE
+            await api.delete(
+                `/tasks/${id}`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                }
+            );
+
+            // Atualiza lista após exclusão
+            loadTasks();
+
+        } catch (error) {
+
+            console.error(error);
+
+            alert("Erro ao excluir tarefa");
+
+        }
+    }
+
+    // Abre modal preenchendo os dados da tarefa
+    function openEditModal(task) {
+
+        // Salva id da tarefa
+        setEditingTaskId(task.id);
+
+        // Preenche campos
+        setTitle(task.title);
+        setDescription(task.description);
+        setStatus(task.status);
+
+        // Abre modal
+        setShowModal(true);
+    }
+
+    // Atualiza uma tarefa existente
+    async function updateTask() {
+
+        try {
+
+            // Busca token salvo após login
+            const token =
+                localStorage.getItem("token");
+
+            // Envia atualização para API
+            await api.put(
+                `/tasks/${editingTaskId}`,
+                {
+                    title,
+                    description,
+                    status
+                },
+                {
+                    headers: {
+                        Authorization:
+                            `Bearer ${token}`
+                    }
+                }
+            );
+
+            // Fecha modal
+            setShowModal(false);
+
+            // Limpa campos
+            setTitle("");
+            setDescription("");
+            setStatus("TODO");
+
+            // Sai do modo edição
+            setEditingTaskId(null);
+
+            // Atualiza lista
+            loadTasks();
+
+        } catch (error) {
+
+            console.error(error);
+
+            alert("Erro ao atualizar tarefa");
+
+        }
+    }
+
+    // Faz logout do usuário
+    function logout() {
+
+        // Remove token salvo
+        localStorage.removeItem("token");
+
+        // Volta para tela de login
+        navigate("/");
+
+    }
+
     return (
+
 
         <div className="dashboard-container">
 
@@ -119,7 +257,9 @@ function Dashboard() {
                     Nova Tarefa
                 </button>
 
-                <button>Sair</button>
+                <button onClick={logout}>
+                    Sair
+                </button>
 
             </aside>
 
@@ -159,20 +299,59 @@ function Dashboard() {
                                 className="task-card"
                                 >
                                 <div className="task-info">
+
                                     <h3>{task.title}</h3>
+
                                     <p>{task.description}</p>
+
+                                    <small className="task-date">
+                                        {
+                                            new Date(task.createdAt)
+                                                .toLocaleDateString("pt-BR")
+                                        }
+                                    </small>
+
                                 </div>
 
                                 <div className="task-actions">
                                     <span
                                         className={`status ${task.status}`}
                                     >
-                                        {task.status}
+                                        {
+                                            task.status === "TODO"
+                                                ? "🟡 Pendente"
+                                                : task.status === "IN_PROGRESS"
+                                                    ? "🔵 Em andamento"
+                                                    : "🟢 Concluída"
+                                        }
                                     </span>
 
-                                    <button>Editar</button>
+                                    <button
+                                        onClick={() =>
+                                            openEditModal(task)
+                                        }
+                                    >
+                                        Editar
+                                    </button>
 
-                                    <button>Excluir</button>
+                                    <button
+                                        onClick={() => {
+
+                                            // Pergunta ao usuário se deseja excluir
+                                            const confirmDelete =
+                                                window.confirm(
+                                                    "Deseja realmente excluir esta tarefa?"
+                                                );
+                                            // Se confirmou
+                                            if (confirmDelete) {
+
+                                                deleteTask(task.id);
+
+                                            }
+                                        }}
+                                    >
+                                        Excluir
+                                    </button>
                                 </div>
                             </div>
                         ))
@@ -187,7 +366,13 @@ function Dashboard() {
 
                         <div className="modal">
 
-                            <h2>Nova Tarefa</h2>
+                            <h2>
+                                {
+                                    editingTaskId
+                                        ? "Editar Tarefa"
+                                        : "Nova Tarefa"
+                                }
+                            </h2>
 
                             <input
                                 type="text"
@@ -201,6 +386,7 @@ function Dashboard() {
                                 value={description}
                                 onChange={(e) => setDescription(e.target.value)}
                             />
+
 
                             <select
                                 value={status}
@@ -224,9 +410,17 @@ function Dashboard() {
 
                                 <button
                                     className="save-button"
-                                    onClick={createTask}
+                                    onClick={
+                                        editingTaskId
+                                            ? updateTask
+                                            : createTask
+                                    }
                                 >
-                                    Salvar
+                                    {
+                                        editingTaskId
+                                            ? "Atualizar"
+                                            : "Salvar"
+                                    }
                                 </button>
                             </div>
 

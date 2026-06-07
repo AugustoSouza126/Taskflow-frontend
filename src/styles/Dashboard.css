@@ -66,10 +66,12 @@
 }
 
 .status {
-    padding: 6px 12px;
-    border-radius: 10px;
-    font-size: 12px;
-    font-weight: bold;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 14px;
+    border-radius: 20px;
+    white-space: nowrap; /* impede quebrar linha */
 }
 
 .status.TODO {
@@ -232,6 +234,7 @@
     border-radius: 8px;
     padding: 10px 16px;
     cursor: pointer;
+    transition: 0.3s;
 }
 
 /* Estilo do botão salvar */
@@ -242,4 +245,27 @@
     border-radius: 8px;
     padding: 10px 16px;
     cursor: pointer;
+    transition: 0.3s;
+}
+
+.save-button:hover {
+    background: #1d4ed8;
+}
+
+.cancel-button:hover {
+    background: #4b5563;
+}
+
+.task-date {
+    display: block;
+    margin-top: 8px;
+    color: #9ca3af;
+    font-size: 12px;
+}
+
+.task-date {
+    display: block;
+    margin-top: 10px;
+    font-size: 12px;
+    color: #9ca3af;
 }
