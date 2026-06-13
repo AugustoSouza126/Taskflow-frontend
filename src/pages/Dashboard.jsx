@@ -36,6 +36,32 @@ function Dashboard() {
     // Guarda o id da tarefa que está sendo editada
     const [editingTaskId, setEditingTaskId] = useState(null);
 
+    // Guarda qual filtro o usuário selecionou
+    const [filter, setFilter] = useState("ALL");
+
+    // Guarda os dados do usuário logado
+    const [user, setUser] = useState(null);
+
+    // Lista filtrada conforme o botão selecionado
+    const filteredTasks =
+        filter === "ALL"
+            ? tasks
+            : tasks.filter(
+                task => task.status === filter
+            );
+
+    const sortedTasks = [...filteredTasks].sort(
+
+        (a, b) =>
+
+            new Date(b.createdAt) -
+
+            new Date(a.createdAt)
+
+    );
+
+
+
     // Verifica se usuário está autenticado
     useEffect(() => {
 
@@ -52,6 +78,37 @@ function Dashboard() {
         }
 
     }, []);
+
+    // Busca dados do usuário logado
+    async function loadUser() {
+
+        try {
+
+            // Busca token salvo
+            const token =
+                localStorage.getItem("token");
+
+            // Chama endpoint /auth/me
+            const response =
+                await api.get(
+                    "/auth/me",
+                    {
+                        headers: {
+                            Authorization:
+                                `Bearer ${token}`
+                        }
+                    }
+                );
+
+            console.log("USER:", response.data);
+
+            setUser(response.data);
+        } catch (error) {
+
+            console.error(error);
+
+        }
+    }
 
     // Salva uma nova tarefa
     async function createTask() {
@@ -86,11 +143,6 @@ function Dashboard() {
                         setTitle("");
                         setDescription("");
                         setStatus("TODO");
-
-            // Limpa os campos
-            setTitle("");
-            setDescription("");
-            setStatus("TODO");
 
             // Atualiza lista de tarefas
             loadTasks();
@@ -133,6 +185,8 @@ function Dashboard() {
     useEffect(() => {
 
         loadTasks();
+
+        loadUser();
 
     }, []);
 
@@ -249,6 +303,21 @@ function Dashboard() {
 
                 <h2>TaskFlow</h2>
 
+                <p className="sidebar-user">
+
+                    Olá,
+                    {" "}
+
+                    {
+                        user
+                            ? user.name
+                            : "Usuário"
+                    }
+
+                    👋
+
+                </p>
+
                 <button>Minhas Tarefas</button>
 
                 <button
@@ -265,7 +334,60 @@ function Dashboard() {
 
             <main className="dashboard-content">
 
-                <h1>Minhas Tarefas</h1>
+                <div className="dashboard-header">
+
+                    <h1>Minhas Tarefas</h1>
+
+                </div>
+
+                {/* Botões de filtro */}
+                <div className="filter-container">
+
+                    <button
+                        className={
+                            filter === "ALL"
+                                ? "active-filter"
+                                : ""
+                        }
+                        onClick={() => setFilter("ALL")}
+                    >
+                        Todas
+                    </button>
+
+                    <button
+                        className={
+                            filter === "TODO"
+                                ? "active-filter"
+                                : ""
+                        }
+                        onClick={() => setFilter("TODO")}
+                    >
+                        Pendentes
+                    </button>
+
+                    <button
+                        className={
+                            filter === "IN_PROGRESS"
+                                ? "active-filter"
+                                : ""
+                        }
+                        onClick={() => setFilter("IN_PROGRESS")}
+                    >
+                        Em andamento
+                    </button>
+
+                    <button
+                        className={
+                            filter === "DONE"
+                                ? "active-filter"
+                                : ""
+                        }
+                        onClick={() => setFilter("DONE")}
+                    >
+                        Concluídas
+                    </button>
+
+                </div>
 
                 <div className="stats-container">
 
@@ -293,7 +415,7 @@ function Dashboard() {
 
                 <div className="tasks-grid">
                     {
-                        tasks.map(task => (
+                        sortedTasks.map(task => (
                             <div
                                 key={task.id}
                                 className="task-card"
@@ -357,6 +479,38 @@ function Dashboard() {
                         ))
                     }
                 </div>
+                {
+                    filteredTasks.length === 0 && (
+
+                        <div className="empty-state">
+
+                            {/* Ícone */}
+                            <div className="empty-icon">
+                                📋
+                            </div>
+
+                            {/* Título */}
+                            <h3>
+                                Nenhuma tarefa encontrada
+                            </h3>
+
+                            {/* Descrição */}
+                            <p>
+                                Crie sua primeira tarefa para começar a organizar seu trabalho.
+                            </p>
+
+                            {/* Botão */}
+                            <button
+                                className="empty-button"
+                                onClick={() => setShowModal(true)}
+                            >
+                                + Nova Tarefa
+                            </button>
+
+                        </div>
+
+                    )
+                }
             </main>
 
             {
@@ -423,11 +577,8 @@ function Dashboard() {
                                     }
                                 </button>
                             </div>
-
                         </div>
-
                     </div>
-
                 )
             }
         </div>
