@@ -2,6 +2,12 @@ import { useEffect, useState } from "react";
 import api from "../services/api";
 import "../styles/Dashboard.css";
 import { useNavigate } from "react-router-dom";
+import {
+    FaTasks,
+    FaPlus,
+    FaSignOutAlt,
+    FaUserCircle
+} from "react-icons/fa";
 
 function Dashboard() {
 
@@ -301,33 +307,54 @@ function Dashboard() {
 
             <aside className="sidebar">
 
-                <h2>TaskFlow</h2>
+                <h2 className="logo">
+                    📋 TaskFlow
+                </h2>
 
-                <p className="sidebar-user">
+                {/* Área do usuário */}
+                <div className="user-card">
 
-                    Olá,
-                    {" "}
+                    <FaUserCircle className="user-avatar" />
 
-                    {
-                        user
-                            ? user.name
-                            : "Usuário"
-                    }
+                    <div>
 
-                    👋
+                        <h4>
+                            Olá, {user?.name}
+                        </h4>
 
-                </p>
+                        <p>
+                            Bem-vindo de volta!
+                        </p>
 
-                <button>Minhas Tarefas</button>
+                    </div>
+
+                </div>
+
+                {/* Menu */}
+                <button>
+
+                    <FaTasks />
+
+                    Minhas Tarefas
+
+                </button>
 
                 <button
                     onClick={() => setShowModal(true)}
                 >
+
+                    <FaPlus />
+
                     Nova Tarefa
+
                 </button>
 
                 <button onClick={logout}>
+
+                    <FaSignOutAlt />
+
                     Sair
+
                 </button>
 
             </aside>

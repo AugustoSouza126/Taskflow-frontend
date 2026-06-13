@@ -25,6 +25,14 @@
 .dashboard-container {
     display: flex;
     min-height: 100vh;
+    background:
+            linear-gradient(
+                    135deg,
+                    #142850,
+                    #274690,
+                    #071633
+            );
+
 }
 
 /* Sidebar */
@@ -50,6 +58,10 @@
     transition: .3s;
 }
 
+.sidebar button:nth-child(4) {
+    background: var(--success);
+}
+
 .sidebar button:hover {
     background: var(--primary-hover);
 }
@@ -69,6 +81,8 @@
 
 .dashboard-content h1 {
     color: var(--text-white);
+    font-size: 42px;
+    margin-bottom: 10px;
 }
 
 /* Card da tarefa */
@@ -82,6 +96,14 @@
     align-items: center;
     color: var(--text-white);
     box-shadow: 0 5px 15px rgba(0,0,0,.3);
+    transition: .3s;
+}
+
+.task-card:hover {
+    transform: translateY(-2px);
+    box-shadow:
+            0 10px 25px rgba(0,0,0,.4);
+
 }
 
 /* Informações da tarefa */
@@ -109,6 +131,8 @@
     padding: 8px 14px;
     border-radius: 20px;
     white-space: nowrap;
+    font-size: 13px;
+    font-weight: 600;
 }
 
 .status.TODO {
@@ -160,6 +184,11 @@
     border-radius: 16px;
     box-shadow: 0 5px 15px rgba(0,0,0,.3);
     text-align: center;
+    transition: 0.3s;
+}
+
+.stat-card:hover {
+    transform: translateY(-3px);
 }
 
 .stat-card h2 {
@@ -275,6 +304,7 @@
     display: flex;
     gap: 10px;
     margin-bottom: 20px;
+    margin-top: 20px;
 }
 
 .filter-container button {
@@ -371,6 +401,76 @@
 .empty-button:hover {
     background: var(--primary-hover);
     transform: translateY(-2px);
+}
+
+/* Logo */
+.logo {
+
+    color: white;
+
+    margin-bottom: 25px;
+
+}
+
+/* Card do usuário */
+.user-card {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+
+    padding: 15px;
+
+    border-radius: 12px;
+
+    background: rgba(255,255,255,.05);
+
+    margin-bottom: 20px;
+
+}
+
+/* Avatar */
+.user-avatar {
+
+    font-size: 45px;
+
+    color: #9ca3af;
+
+}
+
+/* Nome */
+.user-card h4 {
+
+    margin: 0;
+
+    color: white;
+
+}
+
+/* Texto */
+.user-card p {
+
+    margin: 0;
+
+    color: var(--text-secondary);
+
+    font-size: 13px;
+
+}
+
+/* Botões com ícone */
+.sidebar button {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+
+    justify-content: center;
+
 }
 
 /* Tablets e celulares */
