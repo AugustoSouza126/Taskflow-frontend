@@ -528,7 +528,7 @@ function Dashboard() {
 
                             {/* Botão */}
                             <button
-                                className="empty-button"
+                                className="new-task-button"
                                 onClick={() => setShowModal(true)}
                             >
                                 + Nova Tarefa
