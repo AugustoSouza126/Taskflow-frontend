@@ -4,7 +4,15 @@ Frontend application for TaskFlow, a task management platform developed with Rea
 
 ## Overview
 
-TaskFlow Frontend provides a modern and responsive interface for interacting with the TaskFlow API. Users can authenticate, manage their tasks, and track their productivity through an intuitive dashboard.
+TaskFlow Frontend provides a modern and responsive interface for task management. Users can create accounts, authenticate with JWT, manage tasks, and monitor productivity through an intuitive dashboard.
+
+## Live Demo
+
+Frontend:
+https://taskflow-frontend-eight-psi.vercel.app
+
+Backend API:
+https://taskflow-api-zytv.onrender.com
 
 ## Technologies
 
@@ -13,51 +21,63 @@ TaskFlow Frontend provides a modern and responsive interface for interacting wit
 * JavaScript
 * Axios
 * React Router DOM
+* CSS3
+* JWT Authentication
+
+## Features
+
+### Authentication
+
+* User registration
+* User login
+* JWT token authentication
+* Protected dashboard access
+* Persistent login session
+
+### Task Management
+
+* Create tasks
+* View all tasks
+* Edit tasks
+* Delete tasks
+* Task status management
+* Task filtering by status
+
+### Dashboard
+
+* Personalized welcome message
+* Total tasks counter
+* Pending tasks counter
+* In Progress tasks counter
+* Completed tasks counter
+
+### Responsive Design
+
+* Desktop support
+* Tablet support
+* Mobile support
 
 ## Project Structure
 
 ```text
 src
-├── assets
-├── components
 ├── pages
 │   ├── Dashboard.jsx
 │   ├── Login.jsx
 │   └── Register.jsx
 ├── services
 │   └── api.js
+├── components
 ├── styles
 ├── App.jsx
 └── main.jsx
 ```
 
-## Features
-
-### Current Features
-
-* React project setup
-* Project structure organization
-* Login page
-* API integration configuration with Axios
-
-### Planned Features
-
-* User authentication
-* User registration
-* JWT token storage
-* Protected routes
-* Dashboard
-* Task listing
-* Task creation
-* Task editing
-* Task deletion
-* Responsive design
-
 ## Backend Repository
 
 TaskFlow API:
 
-https://github.com/AugustoSouza126/Taskflow
+https://github.com/AugustoSouza126/taskflow-api
 
 ## Getting Started
 
@@ -77,7 +97,7 @@ git clone https://github.com/AugustoSouza126/Taskflow-frontend.git
 Enter the project folder:
 
 ```bash
-cd taskflow-frontend
+cd Taskflow-frontend
 ```
 
 Install dependencies:
@@ -100,16 +120,38 @@ http://localhost:5173
 
 ## API Configuration
 
-The frontend communicates with the TaskFlow backend through Axios.
+The frontend communicates with the TaskFlow API using Axios.
 
-Default backend URL:
+Local development:
 
-```text
-http://localhost:8080
+```javascript
+http://localhost:8081
 ```
+
+Production:
+
+```javascript
+https://taskflow-api-zytv.onrender.com
+```
+
+## Screenshots
+
+### Login
+
+Modern authentication page with JWT login.
+
+### Dashboard
+
+Task management dashboard with statistics, filters, and CRUD operations.
 
 ## Author
 
 Augusto Souza
 
-Computer Science Student
+Computer Science Student – URI Santiago
+
+GitHub:
+https://github.com/AugustoSouza126
+
+LinkedIn:
+https://www.linkedin.com/in/augusto-souza-795324313/
